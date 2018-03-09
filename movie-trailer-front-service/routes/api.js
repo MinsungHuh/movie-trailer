@@ -1,15 +1,17 @@
 var express = require('express');
-var trailerAddict = require('trailer-addict-api');
+var httpRequest = require('request');
+var urllib = require('urllib');
+var constant = require('../utils/constant');
 var router = express.Router();
 
 // Request Movie trailer information
-router.get('/', function(req, res) {
-    
+router.get('/current_reserve_rank', function(req, response) {
+    urllib.request(constant.PREMOVIE_RELEASE_LIST, function(err, data, res) {
+        response.render('current_reserve_rank', {data: data.toString()});
+        
+        var $ = cheerio.load(data.toString());
+        var postElement = $("list_boxthumb");
+    });
 });
 
-// /* GET home page. */
-// router.get('/', function(req, res, next) {
-//   res.render('index', { title: 'Express' });
-// });
-
-// module.exports = router;
+module.exports = router;
